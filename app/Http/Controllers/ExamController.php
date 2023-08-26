@@ -103,15 +103,24 @@ class ExamController extends Controller {
                 'options'       => $question['options'],
                 'answer'        => $question['answer'],
             ]);
-            print_r($createdQuestion);
+            // print_r($createdQuestion);
         }
+        return redirect()->route('exams.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Exam $exam) {
-        //
+    public function show(Request $request, Exam $exam) {
+        $question_query = $request->query('question') ?? '';
+        $answer_query   = $request->query('answer') ?? '';
+        $questions      = Question::where('exam_id', $exam->exam_id)->get();
+        if ($question_query == '') {
+            $current_question = $questions->first();
+        } else {
+            $current_question = Question::where('question_id', $question_query)->first();
+        }
+        return view('exam.show', compact('exam', 'questions', 'current_question', 'answer_query', 'question_query'));
     }
 
     /**

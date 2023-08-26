@@ -10,8 +10,8 @@ class PostController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-
-        // return view('post.index', compact('posts'));
+        $posts = Post::all();
+        return view('post.index', compact('posts'));
     }
 
     /**
