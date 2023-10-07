@@ -12,10 +12,10 @@ return new class extends Migration {
         Schema::create('exams', function (Blueprint $table) {
             $table->id('exam_id');
             $table->string('exam_name');
-            $table->text('exam_description');
-            $table->string('exam_type');
+            $table->text('exam_description')->default('no description')->nullable();
+            $table->enum('exam_type', ['it', 'language', 'other'])->default('it');
             $table->integer('exam_duration');
-            $table->string('exam_status')->default('draft')->in_array(['draft', 'published']);
+            $table->enum('exam_status', ['draft', 'published', 'archived'])->default('draft');
             $table->foreignId('created_by')->constrained('users', 'user_id', 'exams_user_id');
             $table->timestamps();
         });
